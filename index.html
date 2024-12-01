@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random User Generator</title>
+    <!-- Bootstrap CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #ece9e6, #ffffff);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .card-link {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        .card-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        // Function to generate a random Indonesian phone number
+        function generateRandomPhoneNumber() {
+            const prefix = "08"; // Common prefix for Indonesian numbers
+            let number = prefix;
+            for (let i = 0; i < 9; i++) {
+                number += Math.floor(Math.random() * 10); // Append random digit
+            }
+            return number;
+        }
+
+        // Function to Base64 encode a string
+        function base64Encode(input) {
+            return btoa(input); // Use btoa() for Base64 encoding in JS
+        }
+
+        // Function to generate a random name
+        function generateRandomName() {
+            const firstNames = ["Andi", "Budi", "Citra", "Dewi", "Eka", "Fitri", "Gilang", "Hendra", "Intan", "Joko"];
+            const lastNames = ["Santoso", "Wijaya", "Suharto", "Pratama", "Putra", "Saputra", "Kurniawan", "Hidayat", "Gunawan", "Rahmawati"];
+            
+            const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+            const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+            
+            return { firstName, lastName };
+        }
+
+        // Generate random user data
+        function generateRandomUser() {
+            const randomPhoneNumber = generateRandomPhoneNumber();
+            const encodedPhone = base64Encode(randomPhoneNumber);
+            const { firstName, lastName } = generateRandomName();
+
+            // Construct the URL
+            const url = `https://www.mapclub.com/en/user/signup?store=KSO8&mobile=${encodedPhone}`;
+
+            // Display the results
+            document.getElementById("phoneNumber").textContent = randomPhoneNumber;
+            document.getElementById("firstName").textContent = firstName;
+            document.getElementById("lastName").textContent = lastName;
+            document.getElementById("encodedUrl").href = url;
+        }
+    </script>
+</head>
+<body onload="generateRandomUser()">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card p-4">
+                    <div class="card-body text-center">
+                        <h5 class="card-title mb-3">Random User Generator</h5>
+                        <p class="card-text"><strong>First Name:</strong> <span id="firstName" class="text-primary"></span></p>
+                        <p class="card-text"><strong>Last Name:</strong> <span id="lastName" class="text-primary"></span></p>
+                        <p class="card-text"><strong>Phone Number:</strong> <span id="phoneNumber" class="text-primary"></span></p>
+                        <a href="https://www.mapclub.com/en/user/signup?store=KSO8" target="_blank" class="btn btn-success mb-3 text-light">Member KSO8</a>
+                        <a id="encodedUrl" target="_blank" class="btn btn-primary mb-3">MAP Member</a>
+                        <br>
+                        <a href="" target="_blank" class="btn btn-info mb-3"><i class="bi bi-arrow-repeat text-light"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="./js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
