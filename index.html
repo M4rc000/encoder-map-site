@@ -33,6 +33,25 @@
         }
     </style>
     <script>
+        // Function to fetch random user data from the JSON file
+        async function fetchRandomUser() {
+            try {
+                const response = await fetch('./data/random.json');
+                const users = await response.json();
+
+                // Randomly select a user from the list
+                const randomUser = users[Math.floor(Math.random() * users.length)];
+
+                // Display the results
+                document.getElementById("firstName").textContent = randomUser.First;
+                document.getElementById("lastName").textContent = randomUser.Last;
+                document.getElementById("phoneNumber").textContent = generateRandomPhoneNumber();
+                document.getElementById("encodedUrl").href = `https://www.mapclub.com/en/user/signup?store=KSO8&mobile=${base64Encode(generateRandomPhoneNumber())}`;
+            } catch (error) {
+                console.error('Error fetching random user:', error);
+            }
+        }
+
         // Function to generate a random Indonesian phone number
         function generateRandomPhoneNumber() {
             const prefix = "08"; // Common prefix for Indonesian numbers
@@ -48,35 +67,11 @@
             return btoa(input); // Use btoa() for Base64 encoding in JS
         }
 
-        // Function to generate a random name
-        function generateRandomName() {
-            const firstNames = ["Andi", "Budi", "Citra", "Dewi", "Eka", "Fitri", "Gilang", "Hendra", "Intan", "Joko"];
-            const lastNames = ["Santoso", "Wijaya", "Suharto", "Pratama", "Putra", "Saputra", "Kurniawan", "Hidayat", "Gunawan", "Rahmawati"];
-            
-            const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
-            const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
-            
-            return { firstName, lastName };
-        }
-
-        // Generate random user data
-        function generateRandomUser() {
-            const randomPhoneNumber = generateRandomPhoneNumber();
-            const encodedPhone = base64Encode(randomPhoneNumber);
-            const { firstName, lastName } = generateRandomName();
-
-            // Construct the URL
-            const url = `https://www.mapclub.com/en/user/signup?store=KSO8&mobile=${encodedPhone}`;
-
-            // Display the results
-            document.getElementById("phoneNumber").textContent = randomPhoneNumber;
-            document.getElementById("firstName").textContent = firstName;
-            document.getElementById("lastName").textContent = lastName;
-            document.getElementById("encodedUrl").href = url;
-        }
+        // Call fetchRandomUser on page load
+        window.onload = fetchRandomUser;
     </script>
 </head>
-<body onload="generateRandomUser()">
+<body>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -89,7 +84,7 @@
                         <a href="https://www.mapclub.com/en/user/signup?store=KSO8" target="_blank" class="btn btn-success mb-3 text-light">Member KSO8</a>
                         <a id="encodedUrl" target="_blank" class="btn btn-primary mb-3">MAP Member</a>
                         <br>
-                        <a href="" target="_blank" class="btn btn-info mb-3"><i class="bi bi-arrow-repeat text-light"></i></a>
+                        <a href="" class="btn btn-info mb-3"><i class="bi bi-arrow-repeat text-light"></i></a>
                     </div>
                 </div>
             </div>

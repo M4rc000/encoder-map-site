@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@faker-js/faker": "^9.3.0",
+    "faker": "^5.5.3",
+    "fs": "^0.0.1-security"
+  }
+}
